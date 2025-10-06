@@ -87,4 +87,4 @@ def deletar_filme(id):
         finally:
             conexao.close()
             cursor.close()
-deletar_filme(2)
+# deletar_filme(2)

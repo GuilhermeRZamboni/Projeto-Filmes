@@ -1,4 +1,4 @@
-#pip install psycopg2 dotenv streamlit fastapi uvicorn requests
+#pip install -r requirements.txt
 
 import psycopg2
 from dotenv import load_dotenv

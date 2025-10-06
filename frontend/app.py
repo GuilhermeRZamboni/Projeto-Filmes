@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 import pandas as pd
-
+import time
 API_URL = "http://127.0.0.1:8000/"
 st.set_page_config(page_title="Gerenciador de Filmes", page_icon="🎬")
 
@@ -15,14 +15,7 @@ if menu == "Catálogo":
     if response.status_code == 200:
         filmes = response.json().get("Filmes", [])
         if filmes:
-            product_data = {
-            "Titulo": [filme['Titulo'] for filme in filmes[0]],
-            "Genero": [filme['Genero'] for filme in filmes[0]],
-            "Ano": [filme['Ano'] for filme in filmes[0]],
-            "Avaliação ": [filme ['Avaliação'] for filme in filmes[0]],
-            
-        }
-            st.table(product_data, border="horizontal")    
+            st.dataframe(filmes)
         else:
             st.warning("Nenhum livro encontrado!")      
     else:
