@@ -7,7 +7,7 @@ st.set_page_config(page_title="Gerenciador de Filmes", page_icon="🎬")
 
 st.title("🎥 Gerenciador de Filmes")
 
-menu = st.sidebar.radio("Navegção", ["Catálogo", "Adicionar Filme"])
+menu = st.sidebar.radio("Navegção", ["Catálogo", "Adicionar Filme", "Alterar Filme"])
 
 if menu == "Catálogo": 
     st.subheader("Catálogo de Filmes")
@@ -41,3 +41,14 @@ elif menu == "Adicionar Filme":
             st.warning("insira o genero do filme")
     else:
             st.warning("insira o titulo do filme")
+
+elif menu == "Alterar Filme":
+    response = requests.get(f"{API_URL}/filmes")
+    if response.status_code == 200:
+        filmes = response.json().get("Filmes", [])
+        if filmes:
+            todos_titulos = [filme['Titulo'] for filme in filmes]
+            filme_selecionado = st.selectbox("Qual filme você deseja alterar? ", [filme['Titulo'] for filme in filmes])
+            desejo = st.selectbox("Oquê você quer alterar?", ["Titulo", "Genero", "Ano", "Avaliação"])
+            response = requests.put(f"{API_URL}/filmes", params=dados)
+            

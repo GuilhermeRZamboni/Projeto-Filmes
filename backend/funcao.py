@@ -56,13 +56,31 @@ filmes = listar_filmes()
 for linha in filmes:
     print(f"Titulo - {linha[1]}, Genero - {linha[2]}, Ano - {linha[3]}, Avaliação - {linha[4]}")
 
-def atualizar_filme(id, nova_avaliacao):
+def atualizar_filme(id, desejo):
     conexao, cursor = conectar()
     if conexao:
         try:
-            cursor.execute(
-                "UPDATE filmes SET avaliacao = %s WHERE id = %s",
-                (nova_avaliacao, id))
+            if desejo == "titulo":
+                def atualizar_titulo(novo_titulo):
+                    cursor.execute(
+                    "UPDATE filmes SET Titulo = %s WHERE id = %s",
+                    (novo_titulo, id))
+            elif desejo == "genero":
+                def atualizar_genero(novo_genero):
+                    cursor.execute(
+                    "UPDATE filmes SET genero = %s WHERE id = %s",
+                    (novo_genero, id))
+            elif desejo == "ano":
+                def atualizar_ano(novo_ano):
+                    cursor.execute(
+                "UPDATE filmes SET ano = %s WHERE id = %s",
+                (novo_ano, id))
+            elif desejo == "avaliacao":
+                def atualizar_avaliacao(nova_avaliacao):
+                    cursor.execute(
+                        "UPDATE filmes SET avaliacao = %s WHERE id = %s",
+                    (nova_avaliacao, id))
+            conexao.commit()
             conexao.commit()
         except Exception as erro:
             print(f"Erro ao atualizar filmes, {erro}")
@@ -88,3 +106,19 @@ def deletar_filme(id):
             conexao.close()
             cursor.close()
 # deletar_filme(2)
+
+
+def buscar_filmes(id_filme):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+                    "SELECT * FROM filmes WHERE id = %s",
+                    (id_filme,)
+            )
+            return cursor.fetchone()
+        except Exception as erro:
+            print(f"Erro ao inserir filme: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()

@@ -22,6 +22,15 @@ def criar_filmes(titulo: str, genero: str, ano:int, avaliacao:float):
     funcao.inserir_filmes(titulo, genero, ano, avaliacao)
     return {"mensagem" : "Filme adicionado com sucesso"}
 
+@app.put("/filmes/{id_filme}")
+def atualizar_filme(id_filme : int, desejo : str):
+    filme = funcao.buscar_filmes(id_filme)
+    if filme:
+        funcao.atualizar_filme(id_filme, desejo)
+        return{"mensagem" : "filme atualizado com sucesso"}
+    else:
+        return{"Erro" : "Filme não encontrado"}
+    
 @app.delete("/filmes")
 def deletar_filme (id:int):
     funcao.deletar_filme(id)
